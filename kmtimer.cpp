@@ -26,23 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 #include "kmtimer.h"
 
-/*
-usage:
-
-// this function is called every time_in_ms milliseconds
-void timerhandler_function(void)
-{
-	// called every time_in_ms
-}
-
-// start a new timer
-int timernum = start_timer(time_in_ms, &timerhandler_function);
-
-stop_timer(timernum);
-
-*/
-
-
 typedef struct _TIMERDEF_ {
 	int to_ms;								// timeout value in ms
 	timer_t timerid;
