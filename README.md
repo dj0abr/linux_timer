@@ -25,6 +25,9 @@ int main()
 
     sleep_ms(5000);
 
+    stop_timer(timer1);
+    stop_timer(timer2);
+    
     return 0;
 }
 
