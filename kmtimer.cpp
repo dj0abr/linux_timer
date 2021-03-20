@@ -55,7 +55,7 @@ TIMERDEF timers[MAXTIMERS];
 int timernum = 0;
 
 // callback function. The timer number is in val.sival_int
-void sighler (union sigval val)
+void timercallback(union sigval val)
 {
 	int tnum = val.sival_int;
 	timers[tnum].timer_func_handler_pntr();
@@ -75,7 +75,7 @@ int start_timer(int mSec, void(*timer_func_handler)(void))
 
 	struct sigevent sig;
     	sig.sigev_notify = SIGEV_THREAD;
-    	sig.sigev_notify_function = sighler;
+    	sig.sigev_notify_function = timercallback;
     	sig.sigev_value.sival_int = timernum;
     	sig.sigev_notify_attributes = &attr;
 
