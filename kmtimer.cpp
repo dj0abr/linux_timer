@@ -47,7 +47,7 @@ typedef struct _TIMERDEF_ {
 	int to_ms;								// timeout value in ms
 	timer_t timerid;
 	void(*timer_func_handler_pntr)(void);	// this user supplied function is called on timeout
-    struct itimerspec in, out;
+    	struct itimerspec in, out;
 } TIMERDEF;
 
 #define MAXTIMERS 20 //maximum number of timers, may be increase if needed
@@ -67,37 +67,37 @@ int start_timer(int mSec, void(*timer_func_handler)(void))
 	timers[timernum].to_ms = mSec;
 
 	pthread_attr_t attr;
-    pthread_attr_init( &attr );
+    	pthread_attr_init( &attr );
 
-    struct sched_param parm;
-    parm.sched_priority = 255;
-    pthread_attr_setschedparam(&attr, &parm);
+    	struct sched_param parm;
+    	parm.sched_priority = 255;
+    	pthread_attr_setschedparam(&attr, &parm);
 
 	struct sigevent sig;
-    sig.sigev_notify = SIGEV_THREAD;
-    sig.sigev_notify_function = sighler;
-    sig.sigev_value.sival_int = timernum;
-    sig.sigev_notify_attributes = &attr;
+    	sig.sigev_notify = SIGEV_THREAD;
+    	sig.sigev_notify_function = sighler;
+    	sig.sigev_value.sival_int = timernum;
+    	sig.sigev_notify_attributes = &attr;
 
     
-    int ret = timer_create(CLOCK_REALTIME, &sig, &(timers[timernum].timerid));
-    if (ret == 0)
-    {
-        timers[timernum].in.it_value.tv_sec = mSec / 1000;
-        timers[timernum].in.it_value.tv_nsec = (mSec % 1000) * 1000000;
-        timers[timernum].in.it_interval.tv_sec = mSec / 1000;
-        timers[timernum].in.it_interval.tv_nsec = (mSec % 1000) * 1000000;
+    	int ret = timer_create(CLOCK_REALTIME, &sig, &(timers[timernum].timerid));
+    	if (ret == 0)
+    	{
+        	timers[timernum].in.it_value.tv_sec = mSec / 1000;
+        	timers[timernum].in.it_value.tv_nsec = (mSec % 1000) * 1000000;
+        	timers[timernum].in.it_interval.tv_sec = mSec / 1000;
+        	timers[timernum].in.it_interval.tv_nsec = (mSec % 1000) * 1000000;
 
-        ret = timer_settime(timers[timernum].timerid, 0, &timers[timernum].in, &timers[timernum].out);
-        if(ret == -1)
+        	ret = timer_settime(timers[timernum].timerid, 0, &timers[timernum].in, &timers[timernum].out);
+        	if(ret == -1)
 		{
-            printf("timer_settime() failed with %d\n", errno);
+            		printf("timer_settime() failed with %d\n", errno);
 			return -1;
 		}
-    }
-    else
+    	}
+	else
 	{
-    	printf("timer_create() failed with %d\n", errno);
+		printf("timer_create() failed with %d\n", errno);
 		return -1;
 	}
 
