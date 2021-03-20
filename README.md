@@ -1,5 +1,5 @@
 # linux_timer
-Timer for various usage, calls a function every xxx milliseconds
+Timer for various use, calls a function every xxx milliseconds
 
 ## Usage
 
