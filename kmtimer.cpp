@@ -78,26 +78,23 @@ int start_timer(int mSec, void(*timer_func_handler)(void))
     	sig.sigev_notify_function = timercallback;
     	sig.sigev_value.sival_int = timernum;
     	sig.sigev_notify_attributes = &attr;
-
     
-    	int ret = timer_create(CLOCK_REALTIME, &sig, &(timers[timernum].timerid));
-    	if (ret == 0)
+    	if (timer_create(CLOCK_REALTIME, &sig, &(timers[timernum].timerid)) == 0)
     	{
         	timers[timernum].in.it_value.tv_sec = mSec / 1000;
         	timers[timernum].in.it_value.tv_nsec = (mSec % 1000) * 1000000;
         	timers[timernum].in.it_interval.tv_sec = mSec / 1000;
         	timers[timernum].in.it_interval.tv_nsec = (mSec % 1000) * 1000000;
 
-        	ret = timer_settime(timers[timernum].timerid, 0, &timers[timernum].in, &timers[timernum].out);
-        	if(ret == -1)
+        	if(timer_settime(timers[timernum].timerid, 0, &timers[timernum].in, &timers[timernum].out) == -1)
 		{
-            		printf("timer_settime() failed with %d\n", errno);
+            		printf("timer_settime() failed, error: %d\n", errno);
 			return -1;
 		}
     	}
 	else
 	{
-		printf("timer_create() failed with %d\n", errno);
+		printf("timer_create() failed, error: %d\n", errno);
 		return -1;
 	}
 
